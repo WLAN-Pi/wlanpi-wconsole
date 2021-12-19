@@ -8,23 +8,12 @@
 #
 # History:
 #
-# v0.01 - 28th June 2019 - Added more ports for various serial speeds
-# v0.02 - 29th June 2019 - Changed name to wconsole
-# v0.03 - 30th June 2019 - Updated to add/remove FW rules at switch time 
-#         (not during install)
-# v0.04 - 25th July 2019 - Updated to remove install option
-#                        - Added file checks before file copy/del operations
-# v0.05 - no notes
-# v0.06 - no notes
-# v0.07 - 26th January 2020 - added check for WLAN NIC AP mode support
-# v0.08 - 8th Feb 2020 - added support for Cisco USB cable
-# v0.09 - 10th May 2020 - added support for new mode state file
 
 set -e
 
 NAME=wconsole_switcher
 DESC="Script to switch wconsole on/off"
-VERSION=0.07
+VERSION=1.0.0
 STATUS_FILE="/etc/wlanpi-state"
 
 if [[ $EUID -ne 0 ]]; then

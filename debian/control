@@ -1,0 +1,14 @@
+Source: wlanpi-wconsole
+Section: embedded
+Priority: optional
+Maintainer: Jiri Brejcha <jirka@jiribrejcha.net>
+Build-Depends: debhelper (>=9), build-essential
+Standards-Version: 3.9.8
+Homepage: https://github.com/WLAN-Pi/wlanpi-wconsole
+
+Package: wlanpi-wconsole
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: WLAN Pi wireless console mode
+ WLAN Pi wireless console mode.

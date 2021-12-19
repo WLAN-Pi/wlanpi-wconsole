@@ -3,7 +3,7 @@
 
 It can be annoying to have to sit in an equipment room to use the serial console port on an item of networking equipment. This project allows you to use a WLAN Pi to connect to your serial console cable via a Wi-Fi link while sat in the comfort of a nearby office, rather than sat with your laptop on the equipment room floor :) 
 
-![WLAN Pi wconsole demo](https://github.com/WLAN-Pi/wconsole/blob/master/images/wlanpi_console.jpg)
+![WLAN Pi wconsole demo](https://github.com/WLAN-Pi/wconsole/blob/master/docs/images/wlanpi_console.jpg)
 
 ## Requirements
 
@@ -62,17 +62,17 @@ You can now (from WLAN Pi image version v1.9.1) use WLAN Pi with up to 8 USB to 
 
 Example: To connect to the third adapter at baud rate 9600, telnet to WLAN Pi's IP address on TCP port 9603. 
 
-![WLAN Pi with multiple adapters](/images/Wi-Fi-Console-with-multiple-adapters.jpg)
+![WLAN Pi with multiple adapters](/docs/images/Wi-Fi-Console-with-multiple-adapters.jpg)
 
 (Note: the octopus cable shown above is a standard USB hub)
 
-![WLAN Pi connected to multiple appliances](/images/Console-cables-plugged-into-appliances.png)
+![WLAN Pi connected to multiple appliances](/docs/images/Console-cables-plugged-into-appliances.png)
 
  ## Cisco USB console cables
 
 If you are a Cisco shop you may already have a box of unused Cisco USB console cables. Let’s put those to use. You can plug up to 8 using a USB hub to your WLAN Pi and access up to 8 terminal lines wirelessly – no drivers needed!
 
-![WLAN Pi Cisco USB console cables](/images/Cisco-USB-console-cable.jpg)
+![WLAN Pi Cisco USB console cables](/docs/images/Cisco-USB-console-cable.jpg)
 
 To access the Cisco USB console sessions, simply telnet to the WLAN Pi IP address and use one of these ports. The last digit matches the USB console cable number (from 1 to 8):
 
