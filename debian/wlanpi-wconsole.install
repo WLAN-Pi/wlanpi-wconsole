@@ -1,1 +1,3 @@
+wlanpi-wconsole/etc/* /etc/wlanpi-wconsole/
 wlanpi-wconsole/* opt/wlanpi-wconsole/
+

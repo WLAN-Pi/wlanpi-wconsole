@@ -1,0 +1,7 @@
+wlanpi-wconsole.*.debhelper
+wlanpi-wconsole.substvars
+wlanpi-wconsole/
+wlanpi-wconsole-*/
+debhelper*
+files
+*.log

@@ -1,9 +1,0 @@
-*.log
-*.build
-*.deb
-*.buildinfo
-*.changes
-*.substvars
-debhelper*
-.deb*
-debian/wlanpi-wconsole

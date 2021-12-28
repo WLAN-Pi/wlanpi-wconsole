@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # wconsole test suite - all tests to be peformed from the CLI 
-# of the WLAN Pi while switched in to wconsole mode
+# of the WLAN Pi while switched in to classic mode
 #
 #
 
@@ -9,7 +9,7 @@
 # User configurable vars
 ##########################
 MODULE=wconsole
-VERSION=1.01
+VERSION=1.1.0
 COMMENTS="wconsole test suite to verify clean-up when swtched out of wconsole mode"
 SCRIPT_NAME=$(basename $0)
 
@@ -79,13 +79,13 @@ echo "\
 Test rig description:
 
   1. WLAN Pi running image to be tested
-  2. Supported wireless NIC card 1n one of USB ports
+  2. Supported wireless NIC card is operational
   3. WLAN Pi is switched back to classic mode after 
      being tested in wconsole mode
   4. wconsole config files are default
   5. Connect test laptop to WLAN Pi over OTG
-  6. SSH to 169.254.42.1 and run this test script:
-     /etc/wconsole/tests/wconsole_tests_02.sh
+  6. SSH to the WLAN Pi and run this test script:
+     /etc/wlanpi-wconsole/tests/wconsole_tests_02.sh
 
 =======================================================" | tee $LOG_FILE
 
@@ -106,7 +106,7 @@ run_tests () {
   check `cat $STATUS_FILE | grep 'classic'`
 
   # check we have directories expected (i.e. nothing removed)
-  dir_exists "/etc/wconsole"
+  dir_exists "/etc/wlanpi-wconsole"
 
   # check various files exist (i.e. no files lost during switch back)
   file_exists "/etc/default/isc-dhcp-server"

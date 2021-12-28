@@ -9,7 +9,7 @@
 # User configurable vars
 ##########################
 MODULE=wconsole
-VERSION=1.31
+VERSION=1.4.0
 COMMENTS="wconsole test suite to verify files & processes"
 SCRIPT_NAME=$(basename $0)
 
@@ -79,12 +79,12 @@ echo "\
 Test rig description:
 
   1. WLAN Pi running image to be tested
-  2. Supported wireless NIC card on one of USB ports
+  2. Supported wireless NIC card is operational
   3. WLAN Pi is switched in to wconsole mode
   4. wconsole config files are default
   5. Run tests by joining SSID 'wifi_console' (key = 'wifipros' ) 
-  6. SSH to 192.168.42.1 and run this test script:
-      /etc/wconsole/tests/wconsole_tests.01.sh
+  6. SSH to the WLAN Pi and run this test script:
+      /etc/wlanpi-wconsole/tests/wconsole_tests.01.sh
 
 =======================================================" | tee $LOG_FILE
 
@@ -105,18 +105,18 @@ run_tests () {
   check `cat $STATUS_FILE | grep 'wconsole'`
 
   # check we have directories expected
-  dir_exists "/etc/wconsole"
+  dir_exists "/etc/wlanpi-wconsole"
 
   # check various files exist
-  file_exists "/etc/wconsole/conf/hostapd.conf"
-  file_exists "/etc/wconsole/conf/ser2net.conf"
-  file_exists "/etc/wconsole/default/isc-dhcp-server"
-  file_exists "/etc/wconsole/default/ufw"
-  file_exists "/etc/wconsole/dhcp/dhcpd.conf"
-  file_exists "/etc/wconsole/network/interfaces"
-  file_exists "/etc/wconsole/sysctl/sysctl.conf"
-  file_exists "/etc/wconsole/ufw/before.rules"
-  file_exists "/usr/bin/wconsole_switcher"
+  file_exists "/etc/wlanpi-wconsole/conf/hostapd.conf"
+  file_exists "/etc/wlanpi-wconsole/conf/ser2net.conf"
+  file_exists "/etc/wlanpi-wconsole/default/isc-dhcp-server"
+  file_exists "/etc/wlanpi-wconsole/default/ufw"
+  file_exists "/etc/wlanpi-wconsole/dhcp/dhcpd.conf"
+  file_exists "/etc/wlanpi-wconsole/network/interfaces"
+  file_exists "/etc/wlanpi-wconsole/sysctl/sysctl.conf"
+  file_exists "/etc/wlanpi-wconsole/ufw/before.rules"
+  file_exists "/usr/sbin/wconsole_switcher"
 
   # check file symbolic links exist
   symlink_exists "/etc/network/interfaces"
