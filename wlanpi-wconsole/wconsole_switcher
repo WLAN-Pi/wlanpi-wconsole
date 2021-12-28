@@ -91,7 +91,7 @@ wconsole_on () {
     cp /etc/ser2net.conf /etc/ser2net.conf.wcon
   fi
   if [ -e /etc/hostapd/hostapd.conf ]; then
-    cp /etc/hostapd.conf /etc/hostapd/hostapd.conf.wcon
+    cp /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.wcon
   fi
 
   # Remove existing files
@@ -135,7 +135,7 @@ wconsole_on () {
 
   # Signal that wconsole active
   echo "wconsole" > $STATUS_FILE
-  echo "WLAN Pi will now reboot"
+  echo "WLAN Pi will now reboot to launch wireless console mode."
   sleep 1
   reboot
 }
@@ -194,7 +194,7 @@ wconsole_off () {
   ufw delete allow 2000:2008/tcp
   ufw delete allow 11520:11528/tcp
 
-  # disable hostapd and ser2net services to start after reboot
+  # disable hostapd and ser2net services (no start after reboot)
   systemctl disable hostapd
   systemctl disable ser2net
 
