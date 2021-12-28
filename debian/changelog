@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.0-3) UNRELEASED; urgency=medium
+
+  * Fix packaging issues, fix various changes for new version of hostapd, add quickstart script.
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Tue, 28 Dec 2021 21:29:15 +0000
+
 wlanpi-wconsole (1.0.0-2) unstable; urgency=medium
 
   * Debianised package
