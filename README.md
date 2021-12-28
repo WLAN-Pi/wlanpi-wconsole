@@ -81,7 +81,25 @@ Example: To connect to the second USB console cable, telnet to WLAN Pi's IP addr
 
  ## Configurations Options
 
-It is very likely that you will not want to use this utility with the default shared key, channel and SSID. 
+It is very likely that you will not want to use this utility with the default shared key, channel and SSID. There are two options to configure these parameters to your own custom values:
+
+ - Run the "quickstart" CLI script
+ - Edit the hostapd configuration file
+
+Both methods are outlined below:
+
+### Quickstart Script
+
+To run the quickstart script which provides a simple CLI configuration wizard, SSH to the WLAN Pi and run the following commands:
+
+```
+cd /opt/wlanpi-wconsole/extras
+./quickstart.sh
+```
+
+Simply enter the desired values as prompted by the wizard.
+ 
+### Edit Config File
 
 To change from the default settings, ensure that the WLAN Pi is operating in standard "classic"mode. Then, edit the file: /etc/wlanpi-wconsole/conf/hostapd.conf. This can be done by opening an SSH session to the WLAN Pi and using the 'nano' editor:
 
