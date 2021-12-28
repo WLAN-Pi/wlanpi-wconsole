@@ -3,16 +3,12 @@
 
 It can be annoying to have to sit in an equipment room to use the serial console port on an item of networking equipment. This project allows you to use a WLAN Pi to connect to your serial console cable via a Wi-Fi link while sat in the comfort of a nearby office, rather than sat with your laptop on the equipment room floor :) 
 
-![WLAN Pi wconsole demo](doc/images/wlanpi_console.jpg)
-
 ## Requirements
 
 To provide a wireless console serial port using your WLAN Pi, you will need:
 
- - a supported wireless adapter plugged in to one USB port of the WLAN Pi (e.g. CF-912AC, CF-915AC)
- - A recent generation WLAN Pi that has 2 USB sockets
- - A (compatible) USB to serial cable connected to one the other WLAN Pi USB port (e.g. Prolific Technology, Inc. PL2303 Serial Port)
- - WLAN Pi distribution v1.6.1 or later installed on the WLAN Pi (https://github.com/WLAN-Pi/wlanpi/releases)
+ - a supported, operational wireless adapter in the WLAN Pi
+ - A (compatible) USB to serial cable connected to a WLAN Pi USB port
 
 ## Enabling Wi-Fi Console Mode
 
@@ -53,7 +49,7 @@ In addition to the serial port configuration on TCP 9600 the following ports are
 
  ## Multiple serial to USB adapters
 
-You can now (from WLAN Pi image version v1.9.1) use WLAN Pi with up to 8 USB to serial cables, via a USB hub. All 5 baud rates are still available for each cable and the last digit of the TCP port matches the serial cable number (from 1 to 8):
+You can now use the WLAN Pi with up to 8 USB to serial cables, via a USB hub. All 5 baud rates are still available for each cable and the last digit of the TCP port matches the serial cable number (from 1 to 8):
 
  - First adapter uses ports 2401, 4801, 9601, 19201, 11521 (and also ports 2400, 4800, 9600, 19200, 11520 for backwards compatibility)
  - Second adapter uses ports 2402, 4802, 9602, 19202
@@ -87,10 +83,10 @@ Example: To connect to the second USB console cable, telnet to WLAN Pi's IP addr
 
 It is very likely that you will not want to use this utility with the default shared key, channel and SSID. 
 
-To change from the default settings, ensure that the WLAN Pi is operating in standard "classic"mode. Then, edit the file: /etc/wconsole/conf/hostapd.conf. This can be done by opening an SSH session to the WLAN Pi and using the 'nano' editor:
+To change from the default settings, ensure that the WLAN Pi is operating in standard "classic"mode. Then, edit the file: /etc/wlanpi-wconsole/conf/hostapd.conf. This can be done by opening an SSH session to the WLAN Pi and using the 'nano' editor:
 
 ```
- sudo nano /etc/wconsole/conf/hostapd.conf
+ sudo nano /etc/wlanpi-wconsole/conf/hostapd.conf
 ```
 
 Change the following fields to your desired values:
@@ -108,27 +104,21 @@ Next, flip the WLAN Pi back in to "Wi-Fi Console" mode as described in previous 
 (Note: if you make these changes while in "Wi-Fi Console" mode, they will not take effect. You must start in "classic" mode, make the updates, then switch to "Wi-Fi Console" mode)
 
 
-# Legacy Options (Not Recommended For General Use)
+# Switching to Wireless Console Mode From CLI
 
-(It is possible to flip in to Wi-Fi console mode using the Linux CLI, but it is strongly recommended to use the native WLAN Pi front panel navigation menu)
+It is possible to flip in to Wi-Fi console mode using the Linux CLI, but it is recommended to use the WLAN Pi front panel navigation menu if you're not comfortable using the Linux CLI. 
 
 As there are quite a few networking changes we need to make for Wi-Fi Console to operate correctly, we need to flip the WLAN Pi in to a completely new mode of operation that uses a different network configuration. The 'wconsole_switcher' script is used to switch between the usual "classic" mode of operation and the "Wi-Fi Console" mode of operation. 
-
-When moving to the "Wi-Fi Console" mode, various configuration files are changed on the WLAN Pi, with the original networking files being preserved to allow restoration to the original ("classic" mode) configuration. 
-
-When moving back to the original "classic" mode, all changed files are restored to their original state. 
-
-When moving between modes, the WLAN Pi will reboot to ensure that all new network configuration starts cleanly. 
 
 ## Enabling Wi-Fi Console Mode (Via CLI)
 
 To flip the WLAN Pi in to "Wi-Fi Console" mode, SSH to the WLAN Pi and execute the following command:
 
 ```
- sudo /etc/wconsole/wconsole_switcher on
+ sudo /usr/sbin/wconsole_switcher on
 ```
 
-At this point, the WLAN Pi will reboot so that the new networking configuration will take effect. 
+At this point, the WLAN Pi will reboot so that the new mode will take effect. 
 
 
 ## Exiting Wi-Fi Console Mode (via CLI)
@@ -136,8 +126,8 @@ At this point, the WLAN Pi will reboot so that the new networking configuration 
 To switch out of "Wi-Fi Console" mode, SSH to the WLAN Pi using network address 192.168.42.1 (while connected to the Wi-Fi Console SSID, using standard port 22) and run the command: 
 
 ```
- sudo /etc/wconsole/wconsole_switcher off
+ sudo /usr/sbin/wconsole_switcher off
 ```
 
-When this command is executed, the original ("classic" mode) networking configuration files will be restored and the WLAN Pi will reboot. After the reboot, the WLAN Pi will operate as it did before the switch to "Wi-Fi Console" mode.
+When this command is executed, the original ("classic" mode) classic mode will be restored and the WLAN Pi will reboot. After the reboot, the WLAN Pi will operate as it did before switching to "Wi-Fi Console" mode.
 
