@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# "wlanpi-wconsole" postinst script
+#
+
+# hostapd is installed with service masked, need to umask 
+systemctl unmask hostapd
+
+# stop & disable hostapd & ser2net after installed
+# as not needed until we flip modes
+systemctl stop hostapd
+systemctl stop ser2net
+
+systemctl disable hostapd
+systemctl disable ser2net
+
+exit 0
