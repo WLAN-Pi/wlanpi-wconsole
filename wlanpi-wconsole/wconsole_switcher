@@ -77,8 +77,8 @@ wconsole_on () {
   if [ -e /etc/ser2net.conf ]; then
     cp /etc/ser2net.conf /etc/ser2net.conf.wcon
   fi
-  if [ -e /etc/hostapd.conf ]; then
-    cp /etc/hostapd.conf /etc/hostapd.conf.wcon
+  if [ -e /etc/hostapd/hostapd.conf ]; then
+    cp /etc/hostapd.conf /etc/hostapd/hostapd.conf.wcon
   fi
 
   # Remove existing files
@@ -93,8 +93,8 @@ wconsole_on () {
   if [ -e /etc/ser2net.conf ]; then
     rm /etc/ser2net.conf
   fi
-  if [ -e /etc/hostapd.conf ]; then
-    rm /etc/hostapd.conf
+  if [ -e /etc/hostapd/hostapd.conf ]; then
+    rm /etc/hostapd/hostapd.conf
   fi
 
   # Link to files in wconsole
@@ -102,7 +102,7 @@ wconsole_on () {
   ln -s /etc/wlanpi-wconsole/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
   ln -s /etc/wlanpi-wconsole/network/interfaces /etc/network/interfaces
   ln -s /etc/wlanpi-wconsole/conf/ser2net.conf /etc/ser2net.conf
-  ln -s /etc/wlanpi-wconsole/conf/hostapd.conf /etc/hostapd.conf
+  ln -s /etc/wlanpi-wconsole/conf/hostapd.conf /etc/hostapd/hostapd.conf
   ln -s /etc/wlanpi-wconsole/sysctl/sysctl.conf /etc/sysctl.conf
   ln -s /etc/wlanpi-wconsole/default/ufw /etc/default/ufw
   ln -s /etc/wlanpi-wconsole/ufw/before.rules /etc/ufw/before.rules
@@ -149,7 +149,7 @@ wconsole_off () {
   unlink /etc/dhcp/dhcpd.conf
   unlink /etc/network/interfaces
   unlink /etc/ser2net.conf
-  unlink /etc/hostapd.conf
+  unlink /etc/hostapd/hostapd.conf
   unlink /etc/sysctl.conf
   unlink /etc/default/ufw
   unlink /etc/ufw/before.rules
@@ -165,8 +165,8 @@ wconsole_off () {
   if [ -e /etc/ser2net.conf.wcon ]; then
     cp /etc/ser2net.conf.wcon /etc/ser2net.conf
   fi
-  if [ -e /etc/hostapd.conf.wcon ]; then
-    cp /etc/hostapd.conf.wcon /etc/hostapd.conf
+  if [ -e /etc/hostapd/hostapd.conf.wcon ]; then
+    cp /etc/hostapd/hostapd.conf.wcon /etc/hostapd/hostapd.conf
   fi
   # Close ports on FW
   ufw delete allow 2400:2408/tcp
