@@ -98,14 +98,14 @@ wconsole_on () {
   fi
 
   # Link to files in wconsole
-  ln -s /etc/wconsole/default/isc-dhcp-server /etc/default/isc-dhcp-server 
-  ln -s /etc/wconsole/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
-  ln -s /etc/wconsole/network/interfaces /etc/network/interfaces
-  ln -s /etc/wconsole/conf/ser2net.conf /etc/ser2net.conf
-  ln -s /etc/wconsole/conf/hostapd.conf /etc/hostapd.conf
-  ln -s /etc/wconsole/sysctl/sysctl.conf /etc/sysctl.conf
-  ln -s /etc/wconsole/default/ufw /etc/default/ufw
-  ln -s /etc/wconsole/ufw/before.rules /etc/ufw/before.rules
+  ln -s /etc/wlanpi-wconsole/default/isc-dhcp-server /etc/default/isc-dhcp-server 
+  ln -s /etc/wlanpi-wconsole/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
+  ln -s /etc/wlanpi-wconsole/network/interfaces /etc/network/interfaces
+  ln -s /etc/wlanpi-wconsole/conf/ser2net.conf /etc/ser2net.conf
+  ln -s /etc/wlanpi-wconsole/conf/hostapd.conf /etc/hostapd.conf
+  ln -s /etc/wlanpi-wconsole/sysctl/sysctl.conf /etc/sysctl.conf
+  ln -s /etc/wlanpi-wconsole/default/ufw /etc/default/ufw
+  ln -s /etc/wlanpi-wconsole/ufw/before.rules /etc/ufw/before.rules
 
   # Open up console ports on FW 
   ufw allow 2400:2408/tcp
@@ -195,7 +195,7 @@ status () {
 }
 
 version () {
-    N=/etc/wconsole/$NAME
+    N=/etc/wlanpi-wconsole/$NAME
         echo "Version: $N $VERSION" >&2
         exit 1
 
@@ -214,7 +214,7 @@ case "$1" in
   version)
         version;;
   *)
-        N=/etc/wconsole/$NAME
+        N=/etc/wlanpi-wconsole/$NAME
         echo "Usage: $N {on|off|status|version}" >&2
         exit 1
         ;;
