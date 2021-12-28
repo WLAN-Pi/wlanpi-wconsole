@@ -43,6 +43,19 @@ wconsole_on () {
      exit 1
   fi
 
+  # check we have the ser2net service installed
+  SER2NET_STATUS=`systemctl status ser2net| grep ser2net.service`
+  if  [ -z "$SER2NET_STATUS" ]; then
+     echo "Failed - ser2net service not detected."
+     exit 1
+  fi
+
+  # check we have the hostapd service installed
+  HOSTAPD_STATUS=`systemctl status hostapd --no-pager | grep hostapd.service`
+  if  [ -z "$HOSTAPD_STATUS" ]; then
+     echo "Failed - hostapd service not detected."
+     exit 1
+  fi
 
   # check if the WLAN NIC supports AP mode before switching
   # iw list | awk '/Supported interface modes/, /Band/' | grep '\* AP'
@@ -116,6 +129,10 @@ wconsole_on () {
   ufw allow 11520:11528/tcp
   ufw allow 2000:2008/tcp
 
+  # enable hostapd and ser2net services to start after reboot
+  systemctl enable hostapd
+  systemctl enable ser2net
+
   # Signal that wconsole active
   echo "wconsole" > $STATUS_FILE
   echo "WLAN Pi will now reboot"
@@ -176,6 +193,11 @@ wconsole_off () {
   ufw delete allow 38400:38408/tcp
   ufw delete allow 2000:2008/tcp
   ufw delete allow 11520:11528/tcp
+
+  # disable hostapd and ser2net services to start after reboot
+  systemctl disable hostapd
+  systemctl disable ser2net
+
   echo "WLAN Pi will now reboot"
   echo "classic" > $STATUS_FILE
   sleep 1
