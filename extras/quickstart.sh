@@ -16,9 +16,9 @@ set -e
 
 SSID=""
 PSK=""
-CHANNEL
+CHANNEL=
 INTERACE="wlan0"
-CONFIG_FILE=/etc/wlanpi-wconsole/conf/hostap.conf
+CONFIG_FILE=/etc/wlanpi-wconsole/conf/hostapd.conf
 STATUS_FILE="/etc/wlanpi-state"
 
 # default values
@@ -44,7 +44,6 @@ get_ssid () {
 get_psk () {
     # prompt for psk 
     read -p "Enter the network key [$KEY_DEFAULT]: " KEY
-    read -p "Please enter the network name of the wireless connection [$KEY_DEFAULT] : " KEY
     if [ "$KEY" == "" ]; then 
         KEY=$KEY_DEFAULT;
     fi
@@ -62,8 +61,7 @@ get_country () {
 
 get_channel () {
     # prompt for psk 
-    read -p "Enter the network key [$CHANNEL_DEFAULT]: " CHANNEL
-    read -p "Please enter the channel to use for the wireless connection (1-11) [CHANNEL_DEFAULT] : " CHANNEL
+    read -p "Please enter the channel to use for the wireless connection (1-11) [$CHANNEL_DEFAULT] : " CHANNEL
     if [ "$CHANNEL" == "" ]; then 
         CHANNEL=$CHANNEL_DEFAULT;
     fi
@@ -104,8 +102,8 @@ will connect to. The key will be used to secure the
 wireless connection.
 
 You will also need to provide a two letter country 
-code your geographic region to ensure compliance with
-local regulations (e.g. US, GB, DE, CA etc.)
+code for your geographic region to ensure compliance 
+with local regulations (e.g. US, GB, DE, CA etc.)
 
 Only the 2.4GHz band is currently available for the 
 wireless connection, so you must choose a channel
@@ -131,11 +129,13 @@ INTRO
 
             Wireless Configuration
 
-Please enter the SSID of the chosen network and choose
-the security method to connect to the network:
+Please enter the network name, network key, country
+code and channel number as prompted below (remember,
+use appropriate, correct values if you want things 
+to work)
 
-    WPA/PSK = PSK
-    WPA/PEAP = PEAP
+(Default values are shown in square brackets and will
+be used if no value is entered)
 
 ##################################################### 
 SEC
@@ -147,16 +147,15 @@ SEC
     
     echo "Writing supplied configuration values..."
 
-    sed -i 's/^ssid=.*$/ssid=$SSID/' $CONFIG_FILE
-    sed -i 's/^wpa_passphrase=.*$/wpa_passphrase=$KEY/' $CONFIG_FILE
-    sed -i 's/^country_code=.*$/country_code=$COUNTRYCODE/' $CONFIG_FILE
-    sed -i 's/^channel=.*$/channel=$CHANNEL/' $CONFIG_FILE
+    sed -i "s/^ssid=.*$/ssid=$SSID/" $CONFIG_FILE
+    sed -i "s/^wpa_passphrase=.*$/wpa_passphrase=$KEY/" $CONFIG_FILE
+    sed -i "s/^country_code=.*$/country_code=$COUNTRYCODE/" $CONFIG_FILE
+    sed -i "s/^channel=.*$/channel=$CHANNEL/" $CONFIG_FILE
     echo "Wireless link configured."
     sleep 1
 
 
     cat <<COMPLETE
-
 
 #####################################################
 
