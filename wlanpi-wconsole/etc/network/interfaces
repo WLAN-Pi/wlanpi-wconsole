@@ -15,8 +15,3 @@ netmask 255.255.255.224
 dns-nameservers 8.8.8.8 208.67.222.222
 hostapd /etc/hostapd.conf
 
-# USB interface
-allow-hotplug usb0
-iface usb0 inet static
-address 169.254.42.1
-netmask 255.255.255.224
