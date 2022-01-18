@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.3) unstable; urgency=medium
+
+  * Fixes typo in ufw netmask
+
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Tue, 18 Jan 2022 21:34:00 +0000
+
 wlanpi-wconsole (1.0.2-1) unstable; urgency=medium
 
   * Enables BSS Load which advertises the number of connected clients
