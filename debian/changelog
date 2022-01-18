@@ -1,4 +1,4 @@
-wlanpi-wconsole (1.0.2) unstable; urgency=medium
+wlanpi-wconsole (1.0.2-1) unstable; urgency=medium
 
   * Enables BSS Load which advertises the number of connected clients
   * Uses the same channel 6 as Hotspot mode
