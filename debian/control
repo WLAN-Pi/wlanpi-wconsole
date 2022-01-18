@@ -9,6 +9,10 @@ Homepage: https://github.com/WLAN-Pi/wlanpi-wconsole
 Package: wlanpi-wconsole
 Architecture: any
 Multi-Arch: foreign
-Depends: ${misc:Depends}, ${shlibs:Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         hostapd,
+         isc-dhcp-server,
+         ser2net
 Description: WLAN Pi wireless console mode
  WLAN Pi wireless console mode.
