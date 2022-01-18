@@ -133,7 +133,7 @@ run_tests () {
   check_not `iwconfig wlan0 | grep 'Mode:Master'`
 
   # check wlan0 up and running with correct IP address
-  wlan0_ip=192.168.42.1
+  wlan0_ip=172.16.43.1
   info "Checking wlan0 not using ${wlan0_ip}"
   check_not `ifconfig wlan0 | grep $wlan0_ip`
 
