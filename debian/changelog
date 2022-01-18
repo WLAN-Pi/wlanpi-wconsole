@@ -1,3 +1,10 @@
+wlanpi-wconsole (1.0.1) unstable; urgency=medium
+
+  * Update docs to split out userguide & inc quickstart
+  * Update IP addressing to use new 172.16.43.0/24 range
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Tues, 18 Jan 2022 07:15: +0000
+
 wlanpi-wconsole (1.0.0-4) UNRELEASED; urgency=medium
 
   * Remove usb0 config, re-org files to prevent dup etc folder, add docs
