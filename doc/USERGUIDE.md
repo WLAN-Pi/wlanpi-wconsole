@@ -59,7 +59,7 @@ The WLAN Pi will reboot and start up in the default, classic mode.
 
 Following the WLAN Pi reboot, by default, an SSID of "wifi_console" will be available on channel 1. You can join the SSID with a wireless client (e.g. your laptop) using the default shared key: wifipros
 
-Once you have joined the SSID, open a telnet session to the WLAN Pi at 192.168.42.1 using network port 9600. This will provide access to the serial console cable plugged in to the USB port, operating with a serial port configuration of 9600,8,N,1.
+Once you have joined the SSID, open a telnet session to the WLAN Pi at 172.16.43.1 using network port 9600. This will provide access to the serial console cable plugged in to the USB port, operating with a serial port configuration of 9600,8,N,1.
 
 In addition to the serial port configuration on TCP 9600 the following ports are also configured in the "ser2net" configuration file:
 
@@ -155,7 +155,7 @@ At this point, the WLAN Pi will reboot so that the new mode will take effect.
 
 ## Exiting Wi-Fi Console Mode (via CLI)
 
-To switch out of "Wi-Fi Console" mode, SSH to the WLAN Pi using network address 192.168.42.1 (while connected to the Wi-Fi Console SSID, using standard port 22) and run the command: 
+To switch out of "Wi-Fi Console" mode, SSH to the WLAN Pi using network address 172.16.43.1 (while connected to the Wi-Fi Console SSID, using standard port 22) and run the command: 
 
 ```
  sudo /usr/sbin/wconsole_switcher off

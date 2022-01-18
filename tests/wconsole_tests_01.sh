@@ -144,7 +144,7 @@ run_tests () {
   check `iwconfig wlan0 | grep 'Mode:Master'`
 
   # check wlan0 up and running with correct IP address
-  wlan0_ip=192.168.42.1
+  wlan0_ip=172.16.43.1
   info "Checking wlan0 has correct IP (${wlan0_ip})"
   check `ifconfig wlan0 | grep $wlan0_ip`
 
