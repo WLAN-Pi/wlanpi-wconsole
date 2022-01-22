@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.4) unstable; urgency=medium
+
+  * Generates unique SSID using eth0 MAC address
+
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Sat, 22 Jan 2022 16:17:00 +0000
+
 wlanpi-wconsole (1.0.3) unstable; urgency=medium
 
   * Fixes typo in ufw netmask
