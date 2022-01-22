@@ -65,6 +65,20 @@ wconsole_on () {
      exit 1
   fi
 
+  echo "Creating a unique SSID"
+  # Get the last 3 chars of eth0 MAC address
+  LAST_3_CHARS_MAC=$(sed s/://g /sys/class/net/eth0/address | grep -o '...$')
+  # Check if we got 3 chars
+  if [ ${#LAST_3_CHARS_MAC} -ne 3 ]; then
+    echo "Failed parsing eth0 MAC address during unique SSID creation"
+    exit 1
+  fi
+  # Configure the unique SSID
+  if grep -q -E "^?ssid=" /etc/wlanpi-wconsole/conf/hostapd.conf; then
+    sudo sed -i "s/^#\?ssid=.*/ssid=WLAN Pi Console $LAST_3_CHARS_MAC/" /etc/wlanpi-wconsole/conf/hostapd.conf
+  else
+    echo "ssid=WLAN Pi Console $LAST_3_CHARS_MAC" >> /etc/wlanpi-wconsole/conf/hostapd.conf
+  fi
   
   echo "Enabling Wi-Fi console..."
   # Backup files
