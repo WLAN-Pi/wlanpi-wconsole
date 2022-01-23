@@ -1,1 +1,2 @@
 opt/wlanpi-wconsole/wconsole_switcher usr/sbin/wconsole_switcher
+opt/wlanpi-wconsole/extras/quickstart.sh usr/sbin/quickstart-wconsole
