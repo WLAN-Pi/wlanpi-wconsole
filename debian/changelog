@@ -1,3 +1,10 @@
+wlanpi-wconsole (1.0.5) unstable; urgency=medium
+
+  * Add quickstart symlink for easy launch of quickstart script
+  * Remove userguide background section header
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Sun, 23 Jan 2022 19:32:40 +0000
+
 wlanpi-wconsole (1.0.4) unstable; urgency=medium
 
   * Generates unique SSID using eth0 MAC address
