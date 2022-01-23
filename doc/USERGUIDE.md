@@ -3,9 +3,6 @@
 
 It can be annoying to have to sit in an equipment room to use the serial console port on an item of networking equipment. This module allows you to use a WLAN Pi to connect to your serial console cable via a Wi-Fi link while sat in the comfort of a nearby office, rather than sat with your laptop on the equipment room floor :) 
 
-## Background
-TBA
-
 ## Requirements
 
 To provide a wireless console serial port using your WLAN Pi, you will need:
@@ -18,11 +15,10 @@ If you're in a rush to get Wi-Fi Console going, here is a shortcut method of get
 
 1. With your WLAN Pi hooked up to a network port, SSH to the WLAN Pi
 2. Login details for a new unit: wlanpi/wlanpi
-3. Execute the following CLI commands:
+3. Execute the following CLI command:
 
 ```
-cd /opt/wlanpi-wconsole/extras
-sudo ./quickstart.sh
+sudo quickstart-wconsole
 ```
 
 4. Follow the on-screen wizard instructions to set up the the wireless connection for the wireless console
