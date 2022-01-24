@@ -80,6 +80,13 @@ wconsole_on () {
     echo "ssid=WLAN Pi Console $LAST_3_CHARS_MAC" >> /etc/wlanpi-wconsole/conf/hostapd.conf
   fi
   
+  echo "Generating a random WPA2 passphrase"
+  PASSPHRASE=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 12  ; echo)
+  # Only generate a random passphrase if the user has not configured their own one
+  if grep -q -E "^?wpa_passphrase=wifipros" /etc/wlanpi-wconsole/conf/hostapd.conf; then
+    sudo sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" /etc/wlanpi-wconsole/conf/hostapd.conf
+  fi
+  
   echo "Enabling Wi-Fi console..."
   # Backup files
   if [ -e /etc/default/isc-dhcp-server ]; then
