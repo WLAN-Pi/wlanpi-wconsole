@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.6) unstable; urgency=medium
+
+  * Generates random WPA2 passphrase
+
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Mon, 24 Jan 2022 19:49:00 +0000
+
 wlanpi-wconsole (1.0.5) unstable; urgency=medium
 
   * Add quickstart symlink for easy launch of quickstart script
