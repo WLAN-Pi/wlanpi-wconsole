@@ -6,15 +6,13 @@
 #
 # Written by Nigel Bowden <wifinigel@gmail.com>.
 #
-# History:
-#
 
 set -e
 
 NAME=wconsole_switcher
 DESC="Script to switch wconsole on/off"
-VERSION=1.0.0
 STATUS_FILE="/etc/wlanpi-state"
+WCONSOLE_CONF_FILE="/etc/wlanpi-hotspot/conf/hostapd.conf"
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
@@ -65,26 +63,36 @@ wconsole_on () {
      exit 1
   fi
 
-  echo "Creating a unique SSID"
-  # Get the last 3 chars of eth0 MAC address
-  LAST_3_CHARS_MAC=$(sed s/://g /sys/class/net/eth0/address | grep -o '...$')
-  # Check if we got 3 chars
-  if [ ${#LAST_3_CHARS_MAC} -ne 3 ]; then
-    echo "Failed parsing eth0 MAC address during unique SSID creation"
-    exit 1
-  fi
-  # Configure the unique SSID
-  if grep -q -E "^?ssid=" /etc/wlanpi-wconsole/conf/hostapd.conf; then
-    sudo sed -i "s/^#\?ssid=.*/ssid=WLAN Pi Console $LAST_3_CHARS_MAC/" /etc/wlanpi-wconsole/conf/hostapd.conf
-  else
-    echo "ssid=WLAN Pi Console $LAST_3_CHARS_MAC" >> /etc/wlanpi-wconsole/conf/hostapd.conf
-  fi
+   # check if we are using the factory shipped SSID, rename if we are
+  echo "Checking for factory default SSID name"
+  if grep -q "ssid=WLAN Pi Default SSID" $WCONSOLE_CONF_FILE; then
+    echo "Creating a unique SSID as using default SSID"
   
-  echo "Generating a random WPA2 passphrase"
-  PASSPHRASE=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 12  ; echo)
-  # Only generate a random passphrase if the user has not configured their own one
-  if grep -q -E "^?wpa_passphrase=wifipros" /etc/wlanpi-wconsole/conf/hostapd.conf; then
-    sudo sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" /etc/wlanpi-wconsole/conf/hostapd.conf
+    # Get the last 3 chars of eth0 MAC address
+    LAST_3_CHARS_MAC=$(sed s/://g /sys/class/net/eth0/address | grep -o '...$')
+    
+    # Check if we got 3 chars
+    if [ ${#LAST_3_CHARS_MAC} -ne 3 ]; then
+      echo "Failed parsing eth0 MAC address during unique SSID creation"
+      exit 1
+    fi
+
+    # Configure the unique SSID
+    sudo sed -i "s/^#\?ssid=.*/ssid=WLAN Pi $LAST_3_CHARS_MAC/" $WCONSOLE_CONF_FILE
+  
+  else
+    echo "SSID already customized, ignoring."
+  fi
+    
+  if grep -q "wpa_passphrase=WL@NP123" $WCONSOLE_CONF_FILE; then
+    echo "Generating a random WPA2 passphrase"
+    PASSPHRASE=$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 12  ; echo)
+
+    # substitute in new random pwd
+    sudo sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" $WCONSOLE_CONF_FILE
+  
+  else
+    echo "WPA2 passphrase already customized, ignoring."
   fi
   
   echo "Enabling Wi-Fi console..."
