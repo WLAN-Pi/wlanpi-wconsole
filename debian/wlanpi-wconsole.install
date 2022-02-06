@@ -1,3 +1,4 @@
 install/etc/wlanpi-wconsole etc
 wlanpi-wconsole/ opt
+extras/* opt/wlanpi-wconsole/extras
 
