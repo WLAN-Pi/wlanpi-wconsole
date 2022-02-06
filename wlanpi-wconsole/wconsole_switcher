@@ -12,7 +12,7 @@ set -e
 NAME=wconsole_switcher
 DESC="Script to switch wconsole on/off"
 STATUS_FILE="/etc/wlanpi-state"
-WCONSOLE_CONF_FILE="/etc/wlanpi-hotspot/conf/hostapd.conf"
+WCONSOLE_CONF_FILE="/etc/wlanpi-wconsole/conf/hostapd.conf"
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
