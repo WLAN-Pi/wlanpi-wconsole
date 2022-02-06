@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.7) unstable; urgency=medium
+
+  * Add checks for factory default SSID and PSK
+
+ -- Nigel Bowden <wifinigel@gmail.com>  Sun, 06 Feb 2022 17:46:15 +0000
+
 wlanpi-wconsole (1.0.6-1) unstable; urgency=medium
 
   * Generates random WPA2 passphrase
