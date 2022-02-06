@@ -9,3 +9,10 @@ To find out to setup and use the Wi-Fi Console, check out this [userguide](doc/U
 
 ![Wi-Fi Console](doc/images/wlanpi_console.jpg)
 
+# Contributing
+
+If you'd like to contribute to this project, please visit our ["Contributing Guidelines"](https://github.com/WLAN-Pi/.github/blob/6c505d84a8ec6d5004958fe2289659bcdd44118f/contributing.md) page.
+
+# Code of Conduct
+
+Please note the [Code of Conduct](https://github.com/WLAN-Pi/.github/blob/6c505d84a8ec6d5004958fe2289659bcdd44118f/code_of_conduct.md) guidelines that apply to activities within the WLAN Pi project. 
