@@ -1,3 +1,10 @@
+wlanpi-wconsole (1.0.9) unstable; urgency=medium
+
+   * Enables isc-dhcp-server in Wi-Fi Console mode
+   * Disables isc-dhcp-server after switching back to Classic mode
+
+  -- Jiri Brejcha <jirka@jiribrejcha.net>  Wed, 16 Feb 2022 14:12:00 +0000
+
 wlanpi-wconsole (1.0.8) unstable; urgency=medium
 
   * Remove visually similar chars from pseudo random password

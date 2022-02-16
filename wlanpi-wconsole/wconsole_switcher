@@ -158,9 +158,8 @@ wconsole_on () {
   ufw allow 11520:11528/tcp
   ufw allow 2000:2008/tcp
 
-  # enable hostapd and ser2net services to start after reboot
-  systemctl enable hostapd
-  systemctl enable ser2net
+  # Enable services to start after reboot
+  systemctl enable hostapd ser2net isc-dhcp-server
 
   # Signal that wconsole active
   echo "wconsole" > $STATUS_FILE
@@ -223,9 +222,8 @@ wconsole_off () {
   ufw delete allow 2000:2008/tcp
   ufw delete allow 11520:11528/tcp
 
-  # disable hostapd and ser2net services (no start after reboot)
-  systemctl disable hostapd
-  systemctl disable ser2net
+  # Disable services to start after reboot
+  systemctl disable hostapd ser2net isc-dhcp-server
 
   echo "WLAN Pi will now reboot"
   echo "classic" > $STATUS_FILE
