@@ -67,10 +67,10 @@ wconsole_on () {
   echo "Checking for factory default SSID name"
   if grep -q "ssid=WLAN Pi Default SSID" $WCONSOLE_CONF_FILE; then
     echo "Creating a unique SSID as using default SSID"
-  
+
     # Get the last 3 chars of eth0 MAC address
     LAST_3_CHARS_MAC=$(sed s/://g /sys/class/net/eth0/address | grep -o '...$')
-    
+
     # Check if we got 3 chars
     if [ ${#LAST_3_CHARS_MAC} -ne 3 ]; then
       echo "Failed parsing eth0 MAC address during unique SSID creation"
@@ -79,22 +79,22 @@ wconsole_on () {
 
     # Configure the unique SSID
     sudo sed -i "s/^#\?ssid=.*/ssid=WLAN Pi $LAST_3_CHARS_MAC/" $WCONSOLE_CONF_FILE
-  
+
   else
     echo "SSID already customized, ignoring."
   fi
-    
+
   if grep -q "wpa_passphrase=WL@NP123" $WCONSOLE_CONF_FILE; then
     echo "Generating a random WPA2 passphrase"
     PASSPHRASE=$(tr -dc 'A-Ha-h2-9-J-Kj-k2-9-M-Nm-n2-9-P-Zp-z2-9' </dev/urandom | head -c 12  ; echo)
 
     # substitute in new random pwd
     sudo sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" $WCONSOLE_CONF_FILE
-  
+
   else
     echo "WPA2 passphrase already customized, ignoring."
   fi
-  
+
   echo "Enabling Wi-Fi console..."
   # Backup files
   if [ -e /etc/default/isc-dhcp-server ]; then
@@ -157,6 +157,9 @@ wconsole_on () {
   ufw allow 38400:38408/tcp
   ufw allow 11520:11528/tcp
   ufw allow 2000:2008/tcp
+
+  #Disable wpa_supplicant which conflicts with hostapd
+  systemctl disable wpa_supplicant
 
   # Enable services to start after reboot
   systemctl enable hostapd ser2net isc-dhcp-server
@@ -224,6 +227,9 @@ wconsole_off () {
 
   # Disable services to start after reboot
   systemctl disable hostapd ser2net isc-dhcp-server
+
+  #Enable wpa_supplicant
+  systemctl enable wpa_supplicant
 
   echo "WLAN Pi will now reboot"
   echo "classic" > $STATUS_FILE

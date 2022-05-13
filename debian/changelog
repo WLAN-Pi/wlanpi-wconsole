@@ -1,3 +1,10 @@
+wlanpi-wconsole (1.0.10) unstable; urgency=medium
+
+  * Mode switcher disables wpa_supplicant.service in wconsole mode
+  * Mode switcher enables wpa_supplicant.service after switching back to Classic mode
+
+  -- Jiri Brejcha <jirka@jiribrejcha.net>  Fri, 13 May 2022 22:50:00 +0000
+
 wlanpi-wconsole (1.0.9) unstable; urgency=medium
 
    * Enables isc-dhcp-server in Wi-Fi Console mode
