@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.11) unstable; urgency=medium
+  
+  * Revert changes introduced in 1.0.10
+
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Sat, 14 May 2022 00:44:00 +0000
+
 wlanpi-wconsole (1.0.10) unstable; urgency=medium
 
   * Mode switcher disables wpa_supplicant.service in wconsole mode

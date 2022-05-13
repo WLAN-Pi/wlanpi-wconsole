@@ -158,9 +158,6 @@ wconsole_on () {
   ufw allow 11520:11528/tcp
   ufw allow 2000:2008/tcp
 
-  #Disable wpa_supplicant which conflicts with hostapd
-  systemctl disable wpa_supplicant
-
   # Enable services to start after reboot
   systemctl enable hostapd ser2net isc-dhcp-server
 
@@ -227,9 +224,6 @@ wconsole_off () {
 
   # Disable services to start after reboot
   systemctl disable hostapd ser2net isc-dhcp-server
-
-  #Enable wpa_supplicant
-  systemctl enable wpa_supplicant
 
   echo "WLAN Pi will now reboot"
   echo "classic" > $STATUS_FILE
