@@ -1,0 +1,21 @@
+# Defaults for ser2net initscript
+# sourced by /etc/init.d/ser2net
+
+#
+# This is a POSIX shell fragment
+#
+
+# System-wide ser2net conffile. The initscripts
+# are triggered by the presence of this file.
+
+CONFFILE="/etc/ser2net.conf"
+
+# Default options. These take precedence over anything
+# configured by CONFFILE above, so if you like to have
+# any of them specified in CONFFILE, remove them from
+# the line below.
+# OPTIONS=""
+
+# Control port. If nonempty, ser2net will listen on the given
+# tcp port for control connections
+# CONTROLPORT=""

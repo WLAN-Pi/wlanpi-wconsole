@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.13) unstable; urgency=medium
+
+  * ser2net is now working again and uses our config /etc/ser2net.conf, switch to YAML format at some point later
+
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Wed, 08 Jun 2022 17:47:00 +0000
+
 wlanpi-wconsole (1.0.12) unstable; urgency=medium
 
   * Fixed: Wi-Fi Console mode doesn't broadcast SSID
