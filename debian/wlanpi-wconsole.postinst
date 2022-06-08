@@ -14,4 +14,6 @@ systemctl stop ser2net
 systemctl disable hostapd
 systemctl disable ser2net
 
+sed -i 's#CONFFILE="/etc/ser2net.yaml"#CONFFILE="/etc/ser2net.conf"#' /etc/default/ser2net
+
 exit 0

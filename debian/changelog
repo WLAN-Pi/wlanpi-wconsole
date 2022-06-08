@@ -1,4 +1,4 @@
-wlanpi-wconsole (1.0.13) unstable; urgency=medium
+wlanpi-wconsole (1.0.13-1) unstable; urgency=medium
 
   * ser2net is now working again and uses our config /etc/ser2net.conf, switch to YAML format at some point later
 
