@@ -96,16 +96,10 @@ wconsole_on () {
   fi
 
   echo "Enabling Wi-Fi console..."
+  # Copy networkd files into place
+  sudo \cp /etc/systemd/network.wconsole/*  /etc/systemd/network
+
   # Backup files
-  if [ -e /etc/default/isc-dhcp-server ]; then
-    cp /etc/default/isc-dhcp-server /etc/default/isc-dhcp-server.wcon
-  fi
-  if [ -e /etc/dhcp/dhcpd.conf ]; then
-  cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.wcon
-  fi
-  if [ -e /etc/network/interfaces ]; then
-    cp /etc/network/interfaces /etc/network/interfaces.wcon
-  fi
   if [ -e /etc/sysctl.conf ]; then
     cp /etc/sysctl.conf /etc/sysctl.conf.wcon
   fi
@@ -124,9 +118,6 @@ wconsole_on () {
   fi
 
   # Remove existing files
-  rm -f /etc/default/isc-dhcp-server
-  rm -f /etc/dhcp/dhcpd.conf
-  rm -f /etc/network/interfaces
   rm -f /etc/sysctl.conf
   rm -f /etc/default/ufw
   rm -f /etc/ufw/before.rules
@@ -140,9 +131,6 @@ wconsole_on () {
   fi
 
   # Link to files in wconsole
-  ln -s /etc/wlanpi-wconsole/default/isc-dhcp-server /etc/default/isc-dhcp-server 
-  ln -s /etc/wlanpi-wconsole/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
-  ln -s /etc/wlanpi-wconsole/network/interfaces /etc/network/interfaces
   ln -s /etc/wlanpi-wconsole/conf/ser2net.conf /etc/ser2net.conf
   ln -s /etc/wlanpi-wconsole/conf/hostapd.conf /etc/hostapd/hostapd.conf
   ln -s /etc/wlanpi-wconsole/sysctl/sysctl.conf /etc/sysctl.conf
@@ -159,7 +147,7 @@ wconsole_on () {
   ufw allow 2000:2008/tcp
 
   # Enable services to start after reboot
-  systemctl enable hostapd ser2net isc-dhcp-server
+  systemctl enable hostapd ser2net
 
   # Signal that wconsole active
   echo "wconsole" > $STATUS_FILE
@@ -189,10 +177,11 @@ wconsole_off () {
   fi
 
   echo "Disabling Wi-Fi console..."
+  # Copy classic mode networkd files back into place
+  # Copy networkd files into place
+  sudo \cp /etc/systemd/network.classic/*  /etc/systemd/network
+
   # Remove sym links to wconsole
-  unlink /etc/default/isc-dhcp-server
-  unlink /etc/dhcp/dhcpd.conf
-  unlink /etc/network/interfaces
   unlink /etc/ser2net.conf
   unlink /etc/hostapd/hostapd.conf
   unlink /etc/sysctl.conf
@@ -200,9 +189,6 @@ wconsole_off () {
   unlink /etc/ufw/before.rules
 
   # Restore old files
-  cp /etc/default/isc-dhcp-server.wcon /etc/default/isc-dhcp-server
-  cp /etc/dhcp/dhcpd.conf.wcon /etc/dhcp/dhcpd.conf
-  cp /etc/network/interfaces.wcon /etc/network/interfaces
   cp /etc/sysctl.conf.wcon /etc/sysctl.conf
   cp /etc/default/ufw.wcon /etc/default/ufw
   cp /etc/ufw/before.rules.wcon /etc/ufw/before.rules
