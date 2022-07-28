@@ -1,0 +1,13 @@
+[Match]
+Name=pan0
+
+[Network]
+Address=169.254.43.1/24
+Scope=link
+LinkLocalAddressing=no
+IPv6AcceptRA=no
+DHCPServer=yes
+
+[DHCPServer]
+EmitRouter=no
+PoolSize=10
