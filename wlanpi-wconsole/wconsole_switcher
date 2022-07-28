@@ -23,13 +23,21 @@ fi
 #
 # Activate wconsole:
 #
-# 1. Backup various existing files to allow restoration when Wi-Fi console
-#    deactivated
-# 2. Remove a number of existing files that need to be replaced
-# 3. Create links from deleted file locations to Wi-Fi console config files
-# 4. Update ufw to allow tcp ports through that may be used for access
-# 5. Create status file to indicate Wi-Fi console is active
-# 6. Reboot the wlanpi to ensure clean activation
+#  1. Verify we're in classic mode
+#  2. Make sure ser2net & hpstapd installed
+#  3. Ensure wlan0 supports AP mode
+#  4. Create custom SSID if set to factory default
+#  5. Create randomised PSK if not already done
+#  6. Copy networkd files in to place for new networking config after reboot
+#  7. Disable wpa_supplicant services to prevent hostapd conflict after reboot 
+#  8. Backup various existing files to allow restoration when Wi-Fi console
+#     deactivated
+#  9. Remove a number of existing files that need to be replaced
+# 10. Create links from deleted file locations to Wi-Fi console config files
+# 11. Update ufw to allow tcp ports through that may be used for access
+# 12. Enable ser2net and hostapd services
+# 13. Create status file to indicate Wi-Fi console is active
+# 14. Reboot the wlanpi to ensure clean activation
 #
 ###############################################################################
 wconsole_on () {
@@ -63,7 +71,7 @@ wconsole_on () {
      exit 1
   fi
 
-   # check if we are using the factory shipped SSID, rename if we are
+  # check if we are using the factory shipped SSID, rename if we are
   echo "Checking for factory default SSID name"
   if grep -q "ssid=WLAN Pi Default SSID" $WCONSOLE_CONF_FILE; then
     echo "Creating a unique SSID as using default SSID"
@@ -98,6 +106,10 @@ wconsole_on () {
   echo "Enabling Wi-Fi console..."
   # Copy networkd files into place
   sudo \cp /etc/systemd/network.wconsole/*  /etc/systemd/network
+
+  # Disable wpa_supplicant to prevent conflict with hostapd
+  sudo systemctl disable wpa_supplicant@wlan0.service
+  sudo systemctl disable wpa_supplicant@wlan1.service
 
   # Backup files
   if [ -e /etc/sysctl.conf ]; then
@@ -160,11 +172,15 @@ wconsole_on () {
 #
 # Deactivate wconsole:
 #
-# 1. Remove links created during activation
-# 2. Restore config files backed up during activation
-# 3. Remove firewall rules added during activation
-# 4. Remove status file to indicate Wi-Fi console no longer active
-# 5. Reboot wlanpi to provide clean restoration of services
+# 1. Check we're in wconsole mode
+# 2. Copy classic mode networkd files back into place
+# 3. Re-enable wpa_supplicant services
+# 4. Remove links created during activation
+# 5. Restore config files backed up during activation
+# 6. Remove firewall rules added during activation
+# 7. Disable ser2net and hostapd services
+# 8. Remove status file to indicate Wi-Fi console no longer active
+# 9. Reboot wlanpi to provide clean restoration of services
 #
 ###############################################################################
 wconsole_off () {
@@ -178,8 +194,11 @@ wconsole_off () {
 
   echo "Disabling Wi-Fi console..."
   # Copy classic mode networkd files back into place
-  # Copy networkd files into place
   sudo \cp /etc/systemd/network.classic/*  /etc/systemd/network
+
+  # Enable wpa_supplicant services
+  sudo systemctl enable wpa_supplicant@wlan0.service
+  sudo systemctl enable wpa_supplicant@wlan1.service
 
   # Remove sym links to wconsole
   unlink /etc/ser2net.conf
@@ -209,7 +228,7 @@ wconsole_off () {
   ufw delete allow 11520:11528/tcp
 
   # Disable services to start after reboot
-  systemctl disable hostapd ser2net isc-dhcp-server
+  systemctl disable hostapd ser2net
 
   echo "WLAN Pi will now reboot"
   echo "classic" > $STATUS_FILE
