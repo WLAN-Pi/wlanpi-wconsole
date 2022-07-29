@@ -13,6 +13,9 @@ NAME=wconsole_switcher
 DESC="Script to switch wconsole on/off"
 STATUS_FILE="/etc/wlanpi-state"
 WCONSOLE_CONF_FILE="/etc/wlanpi-wconsole/conf/hostapd.conf"
+NETWORKD_DIR=/etc/systemd/network
+CLASSIC_MODE_NETWORK_DIR=/etc/systemd/network.classic
+WCONSOLE_MODE_NETWORK_DIR=/etc/systemd/network.wconsole
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
@@ -24,11 +27,11 @@ fi
 # Activate wconsole:
 #
 #  1. Verify we're in classic mode
-#  2. Make sure ser2net & hpstapd installed
+#  2. Make sure ser2net & hostapd installed
 #  3. Ensure wlan0 supports AP mode
 #  4. Create custom SSID if set to factory default
 #  5. Create randomised PSK if not already done
-#  6. Copy networkd files in to place for new networking config after reboot
+#  6. Move networkd files in to place for new networking config after reboot
 #  7. Disable wpa_supplicant services to prevent hostapd conflict after reboot 
 #  8. Backup various existing files to allow restoration when Wi-Fi console
 #     deactivated
@@ -104,8 +107,11 @@ wconsole_on () {
   fi
 
   echo "Enabling Wi-Fi console..."
-  # Copy networkd files into place
-  sudo \cp /etc/systemd/network.wconsole/*  /etc/systemd/network
+  # move classic mode network files to own networkd dir
+  sudo mv $NETWORKD_DIR/*.net* $CLASSIC_MODE_NETWORK_DIR
+
+  # move wconsole mode files in to live networkd dir
+  sudo mv $WCONSOLE_MODE_NETWORK_DIR/*.net* $NETWORKD_DIR 
 
   # Disable wpa_supplicant to prevent conflict with hostapd
   sudo systemctl disable wpa_supplicant@wlan0.service
@@ -173,7 +179,7 @@ wconsole_on () {
 # Deactivate wconsole:
 #
 # 1. Check we're in wconsole mode
-# 2. Copy classic mode networkd files back into place
+# 2. Move classic mode networkd files back into place
 # 3. Re-enable wpa_supplicant services
 # 4. Remove links created during activation
 # 5. Restore config files backed up during activation
@@ -193,8 +199,11 @@ wconsole_off () {
   fi
 
   echo "Disabling Wi-Fi console..."
-  # Copy classic mode networkd files back into place
-  sudo \cp /etc/systemd/network.classic/*  /etc/systemd/network
+  # move wconsole mode network files to own networkd dir
+  sudo mv $NETWORKD_DIR/*.net* WCONSOLE_MODE_NETWORK_DIR
+
+  # move classic mode files in to live networkd dir
+  sudo mv $CLASSIC_MODE_NETWORK_DIR/*.net* $NETWORKD_DIR 
 
   # Enable wpa_supplicant services
   sudo systemctl enable wpa_supplicant@wlan0.service
