@@ -1,5 +1,4 @@
 install/etc/wlanpi-wconsole etc
-install/etc/system/network.wconsole etc/systemd
 wlanpi-wconsole/ opt
 extras/* opt/wlanpi-wconsole/extras
 
