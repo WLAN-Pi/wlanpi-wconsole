@@ -15,7 +15,7 @@ STATUS_FILE="/etc/wlanpi-state"
 WCONSOLE_CONF_FILE="/etc/wlanpi-wconsole/conf/hostapd.conf"
 NETWORKD_DIR=/etc/systemd/network
 CLASSIC_MODE_NETWORK_DIR=/etc/systemd/network.classic
-WCONSOLE_MODE_NETWORK_DIR=/etc/wlanpi-wconsole/etc/install/systemd/network
+WCONSOLE_MODE_NETWORK_DIR=/etc/wlanpi-wconsole/systemd/network
 
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 
