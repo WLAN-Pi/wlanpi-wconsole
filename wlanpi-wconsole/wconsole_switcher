@@ -200,7 +200,7 @@ wconsole_off () {
 
   echo "Disabling Wi-Fi console..."
   # move wconsole mode network files to own networkd dir
-  sudo mv $NETWORKD_DIR/*.net* WCONSOLE_MODE_NETWORK_DIR
+  sudo mv $NETWORKD_DIR/*.net* $WCONSOLE_MODE_NETWORK_DIR
 
   # move classic mode files in to live networkd dir
   sudo mv $CLASSIC_MODE_NETWORK_DIR/*.net* $NETWORKD_DIR 
