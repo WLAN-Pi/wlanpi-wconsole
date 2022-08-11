@@ -2,4 +2,7 @@
 Name=wlan1
 
 [Network]
-DHCP=yes
+DHCP=ipv4
+
+[DHCPv4]
+ClientIdentifier=mac
