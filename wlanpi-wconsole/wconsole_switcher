@@ -91,8 +91,7 @@ wconsole_on () {
 
   if grep -q -E "^?wpa_passphrase=WL@NP123" $HOTSPOT_CONF_FILE && grep -q -E "^?wpa_passphrase=WL@NP123" $WCONSOLE_CONF_FILE; then
     echo "Generating a new random WPA2 passphrase"
-    PASSPHRASE=$(tr -dc 'A-Ha-h2-9-J-Kj-k2-9-M-Nm-n2-9-P-Zp-z2-9' </dev/urandom | head -c 12  ; echo)
-
+    PASSPHRASE=$(tr -dc 'A-Ha-h2-9J-Kj-k2-9M-Nm-n2-9P-Zp-z2-9' </dev/urandom | head -c 12  ; echo)
     # substitute in new random pwd
     sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" $WCONSOLE_CONF_FILE
     sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" $HOTSPOT_CONF_FILE
