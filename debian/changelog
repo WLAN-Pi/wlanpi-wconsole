@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.15) unstable; urgency=medium
+
+   * Sync hotspot and wconsole passphrases, they both use the same SSID
+
+  -- Jiri Brejcha <jirka@jiribrejcha.net>  Fri, 13 Oct 2023 07:33:00 +0000
+
 wlanpi-wconsole (1.0.14) unstable; urgency=medium
 
   * Use 5 GHz channel 36 by default

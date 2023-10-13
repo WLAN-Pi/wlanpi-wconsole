@@ -9,13 +9,14 @@
 
 set -e
 
-NAME=wconsole_switcher
+NAME="wconsole_switcher"
 DESC="Script to switch wconsole on/off"
 STATUS_FILE="/etc/wlanpi-state"
 WCONSOLE_CONF_FILE="/etc/wlanpi-wconsole/conf/hostapd.conf"
+HOTSPOT_CONF_FILE="/etc/wlanpi-hotspot/conf/hostapd.conf"
 
 if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 
+   echo "Error: This script must be run as root"
    exit 1
 fi
 
@@ -32,26 +33,29 @@ fi
 # 6. Reboot the wlanpi to ensure clean activation
 #
 ###############################################################################
+
 wconsole_on () {
+
+  echo "Starting switch from Classic mode to Wi-Fi Console mode"
 
   # check what state the WLAN Pi is in
   PI_STATUS=`cat $STATUS_FILE | grep 'classic'` || true
   if  [ -z "$PI_STATUS" ]; then
-     echo "Failed - WLAN Pi is not in classic mode."
+     echo "Failed: WLAN Pi is not in Classic mode"
      exit 1
   fi
 
   # check we have the ser2net service installed
   SER2NET_STATUS=`systemctl status ser2net| grep ser2net.service`
   if  [ -z "$SER2NET_STATUS" ]; then
-     echo "Failed - ser2net service not detected."
+     echo "Failed: ser2net service not found"
      exit 1
   fi
 
   # check we have the hostapd service installed
   HOSTAPD_STATUS=`systemctl status hostapd --no-pager | grep hostapd.service`
   if  [ -z "$HOSTAPD_STATUS" ]; then
-     echo "Failed - hostapd service not detected."
+     echo "Failed: hostapd service not found"
      exit 1
   fi
 
@@ -59,13 +63,13 @@ wconsole_on () {
   # iw list | awk '/Supported interface modes/, /Band/' | grep '\* AP'
    AP_SUPPORT=`iw list | awk '/Supported interface modes/, /Band/' | grep '\* AP'` || true
    if  [ -z "$AP_SUPPORT" ]; then
-     echo "Failed - AP Mode not supported by adapter."
+     echo "Failed: AP Mode not supported by adapter"
      exit 1
   fi
 
    # check if we are using the factory shipped SSID, rename if we are
   echo "Checking for factory default SSID name"
-  if grep -q "ssid=WLAN Pi Default SSID" $WCONSOLE_CONF_FILE; then
+  if grep -q -E "^?ssid=WLAN Pi Default SSID" $HOTSPOT_CONF_FILE && grep -q -E "^?ssid=WLAN Pi Default SSID" $WCONSOLE_CONF_FILE; then
     echo "Creating a unique SSID as using default SSID"
 
     # Get the last 3 chars of eth0 MAC address
@@ -73,30 +77,33 @@ wconsole_on () {
 
     # Check if we got 3 chars
     if [ ${#LAST_3_CHARS_MAC} -ne 3 ]; then
-      echo "Failed parsing eth0 MAC address during unique SSID creation"
+      echo "Failed: Couldn't get eth0 MAC address during unique SSID creation"
       exit 1
     fi
 
     # Configure the unique SSID
-    sudo sed -i "s/^#\?ssid=.*/ssid=WLAN Pi $LAST_3_CHARS_MAC/" $WCONSOLE_CONF_FILE
+    sed -i "s/^#\?ssid=.*/ssid=WLAN Pi $LAST_3_CHARS_MAC/" $WCONSOLE_CONF_FILE
+    sed -i "s/^#\?ssid=.*/ssid=WLAN Pi $LAST_3_CHARS_MAC/" $HOTSPOT_CONF_FILE
 
   else
-    echo "SSID already customized, ignoring."
+    echo "SSID is already customised"
   fi
 
-  if grep -q "wpa_passphrase=WL@NP123" $WCONSOLE_CONF_FILE; then
-    echo "Generating a random WPA2 passphrase"
+  if grep -q -E "^?wpa_passphrase=WL@NP123" $HOTSPOT_CONF_FILE && grep -q -E "^?wpa_passphrase=WL@NP123" $WCONSOLE_CONF_FILE; then
+    echo "Generating a new random WPA2 passphrase"
     PASSPHRASE=$(tr -dc 'A-Ha-h2-9-J-Kj-k2-9-M-Nm-n2-9-P-Zp-z2-9' </dev/urandom | head -c 12  ; echo)
 
     # substitute in new random pwd
-    sudo sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" $WCONSOLE_CONF_FILE
+    sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" $WCONSOLE_CONF_FILE
+    sed -i "s/^#\?wpa_passphrase=.*/wpa_passphrase=$PASSPHRASE/" $HOTSPOT_CONF_FILE
 
   else
-    echo "WPA2 passphrase already customized, ignoring."
+    echo "WPA2 passphrase is already customised"
   fi
 
-  echo "Enabling Wi-Fi console..."
+  echo "Enabling Wi-Fi console ..."
   # Backup files
+  echo "Backing up existing config files ..."
   if [ -e /etc/default/isc-dhcp-server ]; then
     cp /etc/default/isc-dhcp-server /etc/default/isc-dhcp-server.wcon
   fi
@@ -140,7 +147,7 @@ wconsole_on () {
   fi
 
   # Link to files in wconsole
-  ln -s /etc/wlanpi-wconsole/default/isc-dhcp-server /etc/default/isc-dhcp-server 
+  ln -s /etc/wlanpi-wconsole/default/isc-dhcp-server /etc/default/isc-dhcp-server
   ln -s /etc/wlanpi-wconsole/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
   ln -s /etc/wlanpi-wconsole/network/interfaces /etc/network/interfaces
   ln -s /etc/wlanpi-wconsole/conf/ser2net.conf /etc/ser2net.conf
@@ -149,7 +156,7 @@ wconsole_on () {
   ln -s /etc/wlanpi-wconsole/default/ufw /etc/default/ufw
   ln -s /etc/wlanpi-wconsole/ufw/before.rules /etc/ufw/before.rules
 
-  # Open up console ports on FW 
+  # Open up console ports on FW
   ufw allow 2400:2408/tcp
   ufw allow 4800:4808/tcp
   ufw allow 9600:9608/tcp
@@ -163,7 +170,7 @@ wconsole_on () {
 
   # Signal that wconsole active
   echo "wconsole" > $STATUS_FILE
-  echo "WLAN Pi will now reboot to launch wireless console mode."
+  echo "WLAN Pi will now reboot to launch Wi-Fi Console mode ..."
   sleep 1
   reboot
 }
@@ -179,16 +186,17 @@ wconsole_on () {
 # 5. Reboot wlanpi to provide clean restoration of services
 #
 ###############################################################################
+
 wconsole_off () {
 
   # check what state the WLAN Pi is in
   PI_STATUS=`cat $STATUS_FILE | grep 'wconsole'` || true
   if  [ -z "$PI_STATUS" ]; then
-     echo "Failed - WLAN Pi is not in wconsole mode."
+     echo "Failed: WLAN Pi is not in wconsole mode"
      exit 1
   fi
 
-  echo "Disabling Wi-Fi console..."
+  echo "Disabling Wi-Fi console ..."
   # Remove sym links to wconsole
   unlink /etc/default/isc-dhcp-server
   unlink /etc/dhcp/dhcpd.conf
@@ -225,7 +233,7 @@ wconsole_off () {
   # Disable services to start after reboot
   systemctl disable hostapd ser2net isc-dhcp-server
 
-  echo "WLAN Pi will now reboot"
+  echo "WLAN Pi will now reboot ..."
   echo "classic" > $STATUS_FILE
   sleep 1
   reboot
@@ -243,11 +251,11 @@ status () {
 
 }
 
-version () {
-    N=/etc/wlanpi-wconsole/$NAME
-        echo "Version: $N $VERSION" >&2
-        exit 1
 
+version () {
+  VERSION=$(apt list --installed wlanpi-wconsole 2>/dev/null | grep wlanpi-wconsole | awk '{print $2}')
+  echo "Version: $VERSION" >&2
+  exit 0
 }
 
 case "$1" in
@@ -270,4 +278,3 @@ case "$1" in
 esac
 
 exit 0
-
