@@ -139,9 +139,9 @@ run_tests () {
   # check dhcpd running
   check_process "dhcpd"
 
-  # check wlan port is in correct state (Mode:Master)
-  info "Checking wlan adapter in master mode"
-  check `iwconfig wlan0 | grep 'Mode:Master'`
+  # check wlan port is in correct state (type AP)
+  info "Checking wlan adapter in type AP"
+  check `iw dev wlan0 info | grep "type AP"`
 
   # check wlan0 up and running with correct IP address
   wlan0_ip=172.16.43.1

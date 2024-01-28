@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.17) unstable; urgency=medium
+
+  * Using iw instead of iwconfig (deprecated).
+
+ -- Adrian Granados <adrian@intuitibits.com>  Sat, 27 Jan 2024 00:00:00 -0500
+
 wlanpi-wconsole (1.0.16) unstable; urgency=medium
 
   * Sync hotspot and wconsole passphrases, they both use the same SSID
