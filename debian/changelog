@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.18) unstable; urgency=medium
+
+  * Now uses 2.4 GHz channel 1 instead of channel 36 which has NO-IR flag on Intel adapters
+
+ -- Jiri Brejcha <jirka@jiribrejcha.net>  Mon, 14 Oct 2023 12:09:00 +0000
+
 wlanpi-wconsole (1.0.17) unstable; urgency=medium
 
   * Using iw instead of iwconfig (deprecated).
