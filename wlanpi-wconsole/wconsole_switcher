@@ -145,6 +145,12 @@ wconsole_on () {
     rm /etc/hostapd/hostapd.conf
   fi
 
+  # Create directory if it doesn't exist
+  if [ ! -d "/etc/hostapd" ]; then
+      echo "Directory /etc/hostapd does not exist. Creating it..."
+      mkdir -p "/etc/hostapd"
+  fi
+
   # Link to files in wconsole
   ln -s /etc/wlanpi-wconsole/default/isc-dhcp-server /etc/default/isc-dhcp-server
   ln -s /etc/wlanpi-wconsole/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf
