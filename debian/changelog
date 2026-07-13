@@ -1,3 +1,9 @@
+wlanpi-wconsole (1.0.20) unstable; urgency=medium
+
+  * Build for Debian trixie only and publish to packagecloud
+
+ -- Josh Schmelzle <josh@joshschmelzle.com>  Mon, 13 Jul 2026 14:28:08 -0400
+
 wlanpi-wconsole (1.0.19) unstable; urgency=medium
   
   * Fixed: Mode switching fails due to missing directory /etc/hostapd
